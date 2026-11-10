@@ -1,0 +1,94 @@
+[project]
+name = "roi-hunter-ingestion"
+version = "0.1.0"
+description = "SKU-level ad performance platform — ingestion, pipeline & backend"
+requires-python = ">=3.11"
+
+# Shared by every component (settings, models, logging, SQL guard, config parsing)
+dependencies = [
+    "pydantic>=2.7.0",
+    "pydantic-settings>=2.3.0",
+    "pyyaml>=6.0",
+    "httpx>=0.27.0",
+    "click>=8.1.7",
+    "tenacity>=8.3.0",
+    "python-json-logger>=2.0.7",
+]
+
+[project.optional-dependencies]
+# FastAPI backend (read-only API)
+api = [
+    "fastapi>=0.111.0",
+    "uvicorn[standard]>=0.30.0",
+    "bcrypt>=4.1.0",
+    "redshift-connector>=2.1.0",
+]
+# Meta / Mixpanel ingestion + loaders
+ingestion = [
+    "facebook-business>=20.0.0",
+    "boto3>=1.34.0",
+    "pyarrow>=16.0.0",
+    "redshift-connector>=2.1.0",
+    "python-dateutil>=2.9.0",
+    "pytz>=2024.1",
+]
+# Daily pipeline container = ingestion + dbt
+# dbt is pinned to a STABLE range (1.13 betas exist); dbt 1.11 needs Python <= 3.13 (Docker/CI use 3.12)
+pipeline = ["roi-hunter-ingestion[ingestion]", "dbt-core>=1.10,<1.12", "dbt-redshift>=1.9,<1.12"]
+# Postgres stand-in for Redshift (CI / docker smoke stack only — never production)
+ci = ["psycopg2-binary>=2.9.9", "dbt-core>=1.10,<1.12", "dbt-postgres>=1.9,<1.12", "pyarrow>=16.0.0"]
+dev = [
+    "roi-hunter-ingestion[api,ingestion,ci]",
+    "pytest>=8.2.0",
+    "pytest-cov>=5.0.0",
+    "ruff>=0.4.0",
+    "mypy>=1.10.0",
+    "types-pytz",
+    "types-python-dateutil",
+    "types-PyYAML",
+    "bandit>=1.7.9",
+    "pip-audit>=2.7.0",
+    "detect-secrets>=1.5.0",
+]
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["ingestion", "backend", "pipeline"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "S"]
+ignore = ["E501", "S101", "S311"]
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["fastapi.Depends", "fastapi.Query", "fastapi.Path"]
+
+[tool.ruff.lint.per-file-ignores]
+"backend/data/demo_source.py" = ["E702"]
+"**/tests/*" = ["S", "E702"]
+"tests/**" = ["S", "E702"]
+"scripts/**" = ["S"]
+
+[tool.bandit]
+exclude_dirs = ["backend/tests", "ingestion/tests", "pipeline/tests", "tests", ".venv", "frontend"]
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+warn_unused_ignores = false
+disallow_untyped_defs = true
+check_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["ingestion/tests", "backend/tests", "pipeline/tests", "tests/integration"]
+markers = ["integration: needs a Postgres stand-in (TEST_PG_DSN) and runs the real dbt project"]
+
+[tool.coverage.run]
+source = ["backend", "ingestion", "pipeline"]
+omit = ["*/tests/*", "ingestion/testing/*"]

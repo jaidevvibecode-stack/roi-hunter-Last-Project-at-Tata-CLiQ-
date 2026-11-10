@@ -1,0 +1,27 @@
+# Recommendation rules. RECOMMENDATION ONLY — nothing is written back to Meta.
+rules:
+  - id: scale_stars
+    segment: Stars
+    action: "Increase budget / give priority in product set"
+    severity: opportunity
+    reason: "High spend and ROAS above target — proven winners."
+  - id: promote_hidden_gems
+    segment: Hidden Gems
+    action: "Test more budget / move into a dedicated product set"
+    severity: opportunity
+    reason: "ROAS above target but under-funded."
+  - id: review_bleeders
+    segment: Bleeders
+    action: "Reduce budget or exclude from product sets until reviewed"
+    severity: critical
+    reason: "Heavy spend with ROAS below target."
+  - id: prune_zombies
+    segment: Zombies
+    action: "Exclude from catalog ads (low spend, low return)"
+    severity: info
+    reason: "Low spend and low ROAS — little upside."
+  - id: oos_spend
+    condition: out_of_stock_with_spend
+    action: "Pause / exclude immediately — spending on out-of-stock SKU"
+    severity: critical
+    reason: "Catalog availability is out of stock but the product is still receiving spend."

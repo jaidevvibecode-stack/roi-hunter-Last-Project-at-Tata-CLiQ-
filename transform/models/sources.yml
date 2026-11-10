@@ -1,0 +1,18 @@
+version: 2
+
+sources:
+  - name: raw_meta
+    description: Raw Meta Marketing API tables loaded by /ingestion (schema owned by this project).
+    schema: raw_meta
+    tables:
+      - name: ad_insights_daily
+        description: Pull A — ad-level daily insights.
+      - name: ad_product_insights_daily
+        description: Pull B — ad x product_id breakdown (estimated allocation by Meta).
+      - name: catalog_products
+        description: Daily catalog snapshots.
+  - name: raw_mixpanel
+    description: Raw Mixpanel events (own export job, or the client's existing Data Pipelines tables).
+    schema: raw_mixpanel
+    tables:
+      - name: events

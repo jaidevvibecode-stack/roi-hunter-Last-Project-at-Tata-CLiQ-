@@ -1,0 +1,63 @@
+name: CI
+on: [push, pull_request]
+permissions:
+  contents: read
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    services:
+      postgres:   # stand-in for Redshift: runs the real dbt project on hand-built fixtures
+        image: postgres:16-alpine
+        env: {POSTGRES_USER: roi_ci, POSTGRES_PASSWORD: roi_ci_test_only, POSTGRES_DB: roi_hunter_ci}
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U roi_ci -d roi_hunter_ci" --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip}
+      - run: pip install -e ".[dev]"
+      - run: python -m compileall -q backend ingestion pipeline scripts
+      - run: ruff check .
+      - run: bandit -q -r backend ingestion pipeline scripts -ll -c pyproject.toml
+      - run: mypy backend pipeline ingestion --exclude tests
+      - name: dbt deps + parse
+        working-directory: transform
+        env: {DBT_PROFILES_DIR: "."}
+        run: cp profiles.ci.yml profiles.yml && dbt deps && dbt parse
+      - name: tests (unit + integration on Postgres) with coverage gate
+        run: pytest -q --cov --cov-fail-under=85
+      - run: detect-secrets scan --all-files --exclude-files 'frontend/(node_modules|\.next.*)/.*|transform/dbt_packages/.*|\.secrets\.baseline|package-lock\.json' | python -c "import json,sys; d=json.load(sys.stdin); b=json.load(open('.secrets.baseline')); new={k:[x['hashed_secret'] for x in v] for k,v in d['results'].items()}; old={k:[x['hashed_secret'] for x in v] for k,v in b['results'].items()}; bad={k:[h for h in hs if h not in old.get(k,[])] for k,hs in new.items()}; bad={k:v for k,v in bad.items() if v}; print('NEW SECRETS:',bad) if bad else print('no new secrets'); sys.exit(1 if bad else 0)"
+      - run: pip-audit --skip-editable
+        continue-on-error: true   # advisory until the baseline is triaged
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults: {run: {working-directory: frontend}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip}
+      - name: install python deps for the OpenAPI export
+        run: pip install -e "${GITHUB_WORKSPACE}[dev]"
+      - uses: actions/setup-node@v4
+        with: {node-version: 22, cache: npm, cache-dependency-path: frontend/package-lock.json}
+      - run: npm ci
+      - name: generated API types are up to date
+        run: npm run gen:api && git diff --exit-code -- openapi.json lib/api-types.ts
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+      - name: end-to-end (real browser against API + dashboard)
+        run: npx playwright install --with-deps chrome && npm run test:e2e
+      - run: npm audit --audit-level=high
+        continue-on-error: true
+
+  smoke:
+    runs-on: ubuntu-latest
+    needs: [python, frontend]
+    steps:
+      - uses: actions/checkout@v4
+      - run: ./scripts/smoke_test.sh

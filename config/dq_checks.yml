@@ -1,0 +1,76 @@
+# Data-quality checks (DESIGN §12). Each check runs ONE read-only SELECT returning a single number ("observed").
+# Placeholders: :as_of (report date, defaults to today), :purchase_event (from config/mixpanel_mapping.yml).
+# severity = status when the check FAILS:  error -> pipeline alerts + non-zero exit,  warn -> alert only.
+# on_null  = status when there is no data to measure (e.g. empty table).
+checks:
+  - name: freshness_meta_days
+    description: "Days since the latest Meta product-level data date"
+    sql: "select cast(:as_of as date) - max(report_date) from mart.product_performance_daily"
+    op: le
+    threshold: 2
+    severity: error
+    on_null: error
+
+  - name: catalog_snapshot_age_days
+    description: "Days since the latest catalog snapshot"
+    sql: "select cast(:as_of as date) - max(snapshot_date) from raw_meta.catalog_products"
+    op: le
+    threshold: 2
+    severity: warn
+    on_null: error
+
+  - name: spend_reconciliation_gap_pct
+    description: "Worst daily unallocated spend (ad-level vs product-level) in the last 14 days, in %"
+    sql: "select max(unallocated_pct) from mart.spend_reconciliation where report_date > cast(:as_of as date) - 14"
+    op: le
+    threshold: 2.0
+    severity: warn
+    on_null: warn
+
+  - name: spend_id_match_rate
+    description: "Share of Meta product-level spend whose product_id maps to a catalog product (30d)"
+    sql: "select sum(matched_spend) / nullif(sum(total_spend), 0) from mart.id_match_report where report_date > cast(:as_of as date) - 30"
+    op: ge
+    threshold: 0.95
+    severity: error
+    on_null: warn
+
+  - name: revenue_id_match_rate
+    description: "Share of Mixpanel purchase revenue whose SKU maps to a catalog product (30d)"
+    sql: "select sum(matched_revenue) / nullif(sum(total_revenue), 0) from mart.id_match_report where report_date > cast(:as_of as date) - 30"
+    op: ge
+    threshold: 0.90
+    severity: error
+    on_null: warn
+
+  - name: purchase_events_missing_order_id_rate
+    description: "Share of purchase events without an order_id (cannot be deduplicated or attributed)"
+    sql: "select avg(case when order_id is null then 1.0 else 0.0 end) from stg.stg_mixpanel__events where event = :purchase_event"
+    op: le
+    threshold: 0.02
+    severity: warn
+    on_null: warn
+
+  - name: duplicate_order_lines
+    description: "Order lines (order_id, sku) seen more than once under different $insert_id (client double-fire)"
+    sql: "select count(*) from (select order_id, sku from stg.stg_mixpanel__events where event = :purchase_event and order_id is not null group by order_id, sku having count(*) > 1) d"
+    op: eq
+    threshold: 0
+    severity: warn
+    on_null: warn
+
+  - name: negative_spend_rows
+    description: "Raw Meta rows with negative spend (dropped in staging)"
+    sql: "select count(*) from raw_meta.ad_insights_daily where spend < 0"
+    op: eq
+    threshold: 0
+    severity: warn
+    on_null: ok
+
+  - name: utm_content_coverage
+    description: "Share of ACTIVE ads whose URL parameters carry the ad id (needed for M1/M2) in the latest snapshot"
+    sql: "select avg(case when lower(url_tags) like '%ad.id%' or lower(url_tags) like '%utm_content%' then 1.0 else 0.0 end) from raw_meta.ads_snapshot where level = 'ad' and effective_status = 'ACTIVE' and snapshot_date = (select max(snapshot_date) from raw_meta.ads_snapshot)"
+    op: ge
+    threshold: 1.0
+    severity: warn
+    on_null: warn

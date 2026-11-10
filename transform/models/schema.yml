@@ -1,0 +1,103 @@
+version: 2
+
+models:
+  - name: stg_meta__ad_insights
+    description: Ad-level daily insights (Pull A), deduplicated, typed.
+    columns:
+      - {name: report_date, tests: [not_null]}
+      - {name: ad_id, tests: [not_null]}
+      - {name: spend, tests: [not_null]}
+  - name: stg_meta__ad_product_insights
+    description: Ad x product daily insights (Pull B). Values are Meta-estimated.
+    columns:
+      - {name: report_date, tests: [not_null]}
+      - {name: ad_id, tests: [not_null]}
+      - {name: meta_item_id, tests: [not_null]}
+  - name: stg_meta__catalog_products
+    description: Latest catalog snapshot per product.
+    columns:
+      - name: meta_item_id
+        tests: [not_null, unique]
+  - name: stg_mixpanel__events
+    description: Typed Mixpanel events. distinct_id is stored only as an md5 hash (no PII downstream).
+    columns:
+      - name: insert_id
+        tests: [unique]
+      - name: distinct_id_hash
+        tests: [not_null]
+  - name: int_product_key_map
+    description: meta_item_id <-> retailer_id <-> Mixpanel SKU <-> Redshift SKU.
+    columns:
+      - name: meta_item_id
+        tests: [not_null, unique]
+      - name: product_key
+        tests: [not_null]
+  - name: int_attribution_m1
+    description: M1 same-SKU click attribution.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments: {combination_of_columns: [report_date, ad_id, mixpanel_sku, lookback_days]}
+  - name: int_attribution_m2
+    description: M2 halo (whole order credited to landing-SKU click).
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments: {combination_of_columns: [report_date, ad_id, mixpanel_sku, lookback_days]}
+  - name: int_attribution_m3
+    description: M3 modelled (Meta purchase value split by click share). Proxy, not first-party.
+  - name: int_attribution_m4
+    description: M4 purchased-SKU, last paid touch = Meta.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments: {combination_of_columns: [report_date, ad_id, mixpanel_sku, lookback_days]}
+  - name: dim_product
+    description: One row per product_key.
+    columns:
+      - name: product_key
+        tests: [not_null, unique]
+      - name: availability
+        tests:
+          - accepted_values:
+              arguments: {values: ['in stock', 'out of stock', 'available for order', 'discontinued', 'preorder']}
+              config: {severity: warn}
+  - name: product_performance_daily
+    description: Main serving table (delivery x attribution model). Ratios are derived from sums.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments: {combination_of_columns: [report_date, ad_id, product_key, attribution_model, lookback_days]}
+    columns:
+      - name: attribution_model
+        tests:
+          - not_null
+          - accepted_values: {arguments: {values: ['M1', 'M2', 'M3', 'M4']}}
+      - name: spend
+        tests: [not_null]
+      - name: product_key
+        tests:
+          - relationships: {arguments: {to: ref('dim_product'), field: product_key}}
+  - name: spend_reconciliation
+    description: Ad-level vs product-level spend, unallocated spend per day.
+    columns:
+      - name: report_date
+        tests: [not_null, unique]
+  - name: product_segments
+    description: Stars / Hidden Gems / Bleeders / Zombies over trailing 30d (M1).
+    columns:
+      - name: product_key
+        tests: [not_null, unique]
+      - name: segment
+        tests:
+          - accepted_values: {arguments: {values: ['Stars', 'Hidden Gems', 'Bleeders', 'Zombies', 'Insufficient data']}}
+  - name: oos_spend_daily
+    description: Spend on currently out-of-stock products.
+  - name: id_match_report
+    description: Spend / revenue ID match rates across Meta, Mixpanel and the catalog.
+    columns:
+      - name: report_date
+        tests: [not_null]
+
+seeds:
+  - name: sku_mapping
+    description: >
+      Manual SKU mapping override for cases where Meta retailer_id, Mixpanel SKU and Redshift SKU do not align.
+      Populate after the ID alignment audit (plan P0.8). Header-only until then. Seed values take precedence in
+      int_product_key_map.

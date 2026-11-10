@@ -1,0 +1,6 @@
+# Product segmentation thresholds (editable by the business; no code change needed)
+# A product is "high spend" if its spend share >= spend_share_percentile of products (by rank),
+# and "high ROAS" if roas >= target_roas.
+target_roas: 3.0
+high_spend_percentile: 0.80     # top 20% of products by spend = high spend
+min_spend_for_classification: 500   # INR in period; below this => "Insufficient data"

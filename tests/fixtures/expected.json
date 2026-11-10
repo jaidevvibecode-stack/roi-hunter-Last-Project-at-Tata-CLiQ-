@@ -1,0 +1,42 @@
+{
+  "_notes": "Hand-computed from tests/fixtures/dataset.json. Window 2026-03-01..03-03, lookback 7d. Derivations in docs/validation/attribution_trace.md.",
+  "mart_totals_by_model": {
+    "M1": {"spend": 650, "impressions": 65000, "link_clicks": 960, "orders": 3, "units": 5, "revenue": 230},
+    "M2": {"spend": 650, "impressions": 65000, "link_clicks": 960, "orders": 5, "units": 8, "revenue": 310},
+    "M3": {"spend": 650, "impressions": 65000, "link_clicks": 960, "orders": 6, "units": 0, "revenue": 600},
+    "M4": {"spend": 650, "impressions": 65000, "link_clicks": 960, "orders": 4, "units": 5, "revenue": 220}
+  },
+  "mart_rows_with_revenue": [
+    ["M1", "2026-03-01", "ad1", "SKU-A", 100, 1, 2, 100],
+    ["M1", "2026-03-02", "ad2", "SKU-C", 60, 1, 2, 80],
+    ["M1", "2026-03-03", "ad1", "SKU-A", 90, 1, 1, 50],
+    ["M2", "2026-03-01", "ad1", "SKU-A", 100, 1, 3, 130],
+    ["M2", "2026-03-02", "ad1", "SKU-A", 120, 1, 1, 10],
+    ["M2", "2026-03-02", "ad1", "SKU-B", 30, 1, 1, 40],
+    ["M2", "2026-03-02", "ad2", "SKU-C", 60, 1, 2, 80],
+    ["M2", "2026-03-03", "ad1", "SKU-A", 90, 1, 1, 50],
+    ["M3", "2026-03-01", "ad1", "SKU-A", 100, 3, 0, 320],
+    ["M3", "2026-03-01", "ad1", "SKU-B", 50, 1, 0, 80],
+    ["M3", "2026-03-03", "ad2", "SKU-C", 70, 2, 0, 175],
+    ["M3", "2026-03-03", "ad2", "SKU-D", 10, 0, 0, 25],
+    ["M4", "2026-03-01", "ad1", "SKU-A", 100, 1, 2, 100],
+    ["M4", "2026-03-01", "ad1", "SKU-D", 0, 1, 1, 30],
+    ["M4", "2026-03-02", "ad1", "SKU-C", 0, 1, 1, 40],
+    ["M4", "2026-03-03", "ad1", "SKU-A", 90, 1, 1, 50]
+  ],
+  "spend_reconciliation": {"2026-03-01": [235, 230, 5], "2026-03-02": [262, 260, 2], "2026-03-03": [172, 170, 2]},
+  "id_match": {
+    "2026-03-01": {"total_spend": 230, "matched_spend": 230, "total_revenue": 130, "matched_revenue": 130},
+    "2026-03-02": {"total_spend": 260, "matched_spend": 250, "total_revenue": 130, "matched_revenue": 120},
+    "2026-03-03": {"total_spend": 170, "matched_spend": 170, "total_revenue": 50, "matched_revenue": 50}
+  },
+  "segments_vars": {"min_spend_for_classification": 50, "target_roas": 0.4, "high_spend_percentile": 0.5},
+  "segments_m1": {"SKU-A": "Stars", "SKU-B": "Zombies", "SKU-C": "Bleeders", "SKU-D": "Zombies"},
+  "oos_spend": {"2026-03-01|SKU-B": 50, "2026-03-02|SKU-B": 30},
+  "products_m1": {
+    "SKU-A": {"spend": 310, "revenue": 150, "orders": 2, "link_clicks": 620},
+    "SKU-B": {"spend": 80, "revenue": 0, "orders": 0, "link_clicks": 80},
+    "SKU-C": {"spend": 210, "revenue": 80, "orders": 1, "link_clicks": 230},
+    "SKU-D": {"spend": 50, "revenue": 0, "orders": 0, "link_clicks": 30}
+  }
+}

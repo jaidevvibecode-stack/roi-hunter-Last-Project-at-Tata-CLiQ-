@@ -1,0 +1,160 @@
+version: 2
+
+# Hand-built, isolated unit tests for the attribution logic (dbt >= 1.8 unit_tests).
+# Each case documents its arithmetic. Executed by `dbt build` / `dbt test --select test_type:unit`.
+
+unit_tests:
+  # ───────────────────────────── M1: same-SKU click ─────────────────────────────
+  - name: m1_credits_same_sku_click_within_window
+    description: "u1 clicks SKU-A via ad1, buys 2 x SKU-A @50 five hours later => ad1/SKU-A gets 1 order, 2 units, revenue 100."
+    model: int_attribution_m1
+    given:
+      - input: ref('stg_mixpanel__events')
+        rows:
+          - {distinct_id_hash: u1, event: Product Viewed, event_time: "2026-03-01 10:00:00", utm_source: facebook, utm_content: ad1, sku: SKU-A}
+          - {distinct_id_hash: u1, event: Order Completed, event_time: "2026-03-01 15:00:00", order_id: o1, sku: SKU-A, price: 50, quantity: 2}
+    expect:
+      rows:
+        - {report_date: "2026-03-01", ad_id: ad1, mixpanel_sku: SKU-A, attribution_model: M1, lookback_days: 7, orders: 1, units: 2, revenue: 100.000000}
+
+  - name: m1_ignores_click_outside_lookback
+    description: "Click 03-01 10:00, purchase 03-09 12:00 (8.1 days) => no credit."
+    model: int_attribution_m1
+    given:
+      - input: ref('stg_mixpanel__events')
+        rows:
+          - {distinct_id_hash: u1, event: Product Viewed, event_time: "2026-03-01 10:00:00", utm_source: facebook, utm_content: ad1, sku: SKU-A}
+          - {distinct_id_hash: u1, event: Order Completed, event_time: "2026-03-09 12:00:00", order_id: o1, sku: SKU-A, price: 50, quantity: 1}
+    expect:
+      rows: []
+
+  - name: m1_requires_same_sku
+    description: "Clicked SKU-A but bought SKU-B => M1 gives no credit (that is M2's job)."
+    model: int_attribution_m1
+    given:
+      - input: ref('stg_mixpanel__events')
+        rows:
+          - {distinct_id_hash: u1, event: Product Viewed, event_time: "2026-03-01 10:00:00", utm_source: facebook, utm_content: ad1, sku: SKU-A}
+          - {distinct_id_hash: u1, event: Order Completed, event_time: "2026-03-01 15:00:00", order_id: o1, sku: SKU-B, price: 40, quantity: 1}
+    expect:
+      rows: []
+
+  - name: m1_last_click_wins
+    description: "Two clicks on SKU-A (ad1 at 09:00, ad2 at 11:00), purchase at 15:00 => credit goes to ad2 only, once."
+    model: int_attribution_m1
+    given:
+      - input: ref('stg_mixpanel__events')
+        rows:
+          - {distinct_id_hash: u1, event: Product Viewed, event_time: "2026-03-01 09:00:00", utm_source: facebook, utm_content: ad1, sku: SKU-A}
+          - {distinct_id_hash: u1, event: Product Viewed, event_time: "2026-03-01 11:00:00", utm_source: facebook, utm_content: ad2, sku: SKU-A}
+          - {distinct_id_hash: u1, event: Order Completed, event_time: "2026-03-01 15:00:00", order_id: o1, sku: SKU-A, price: 10, quantity: 3}
+    expect:
+      rows:
+        - {report_date: "2026-03-01", ad_id: ad2, mixpanel_sku: SKU-A, attribution_model: M1, lookback_days: 7, orders: 1, units: 3, revenue: 30.000000}
+
+  - name: m1_ignores_non_meta_click_and_missing_ad_id
+    description: "A google click and a facebook click without utm_content never create credit."
+    model: int_attribution_m1
+    given:
+      - input: ref('stg_mixpanel__events')
+        rows:
+          - {distinct_id_hash: u1, event: Product Viewed, event_time: "2026-03-01 09:00:00", utm_source: google, utm_content: ad9, sku: SKU-A}
+          - {distinct_id_hash: u1, event: Product Viewed, event_time: "2026-03-01 10:00:00", utm_source: facebook, sku: SKU-A}
+          - {distinct_id_hash: u1, event: Order Completed, event_time: "2026-03-01 15:00:00", order_id: o1, sku: SKU-A, price: 50, quantity: 1}
+    expect:
+      rows: []
+
+  # ───────────────────────────── M2: halo ─────────────────────────────
+  - name: m2_credits_whole_order_to_clicked_sku
+    description: "u1 clicks SKU-A (ad1) then buys A (2 x 50) + D (1 x 30) in one order => ad1/SKU-A gets the WHOLE order: 1 order, 3 units, revenue 130."
+    model: int_attribution_m2
+    given:
+      - input: ref('stg_mixpanel__events')
+        rows:
+          - {distinct_id_hash: u1, event: Product Viewed, event_time: "2026-03-01 10:00:00", utm_source: facebook, utm_content: ad1, sku: SKU-A}
+          - {distinct_id_hash: u1, event: Order Completed, event_time: "2026-03-01 15:00:00", order_id: o1, sku: SKU-A, price: 50, quantity: 2}
+          - {distinct_id_hash: u1, event: Order Completed, event_time: "2026-03-01 15:00:00", order_id: o1, sku: SKU-D, price: 30, quantity: 1}
+    expect:
+      rows:
+        - {report_date: "2026-03-01", ad_id: ad1, mixpanel_sku: SKU-A, attribution_model: M2, lookback_days: 7, orders: 1, units: 3, revenue: 130.000000}
+
+  - name: m2_one_credit_per_order_last_click
+    description: "Clicks on SKU-A (ad1) then SKU-B (ad2) before one order of 40 => only the last click (ad2/SKU-B) is credited."
+    model: int_attribution_m2
+    given:
+      - input: ref('stg_mixpanel__events')
+        rows:
+          - {distinct_id_hash: u1, event: Product Viewed, event_time: "2026-03-01 09:00:00", utm_source: facebook, utm_content: ad1, sku: SKU-A}
+          - {distinct_id_hash: u1, event: Product Viewed, event_time: "2026-03-01 10:00:00", utm_source: facebook, utm_content: ad2, sku: SKU-B}
+          - {distinct_id_hash: u1, event: Order Completed, event_time: "2026-03-01 15:00:00", order_id: o1, sku: SKU-C, price: 40, quantity: 1}
+    expect:
+      rows:
+        - {report_date: "2026-03-01", ad_id: ad2, mixpanel_sku: SKU-B, attribution_model: M2, lookback_days: 7, orders: 1, units: 1, revenue: 40.000000}
+
+  # ───────────────────────────── M3: modelled (click-share) ─────────────────────────────
+  - name: m3_splits_meta_purchase_value_by_link_click_share
+    description: >
+      Meta reports 4 purchases / 400 for ad1 on 03-01. Products: m1 has 200 link clicks, m2 has 50 (share .8 / .2).
+      => m1: orders round(4*.8)=3, revenue 320; m2: orders round(4*.2)=1, revenue 80.
+    model: int_attribution_m3
+    given:
+      - input: ref('stg_meta__ad_insights')
+        rows:
+          - {report_date: "2026-03-01", ad_id: ad1, meta_purchases: 4, meta_purchase_value: 400}
+      - input: ref('stg_meta__ad_product_insights')
+        rows:
+          - {report_date: "2026-03-01", ad_id: ad1, meta_item_id: m1, link_clicks: 200, impressions: 10000, spend: 100}
+          - {report_date: "2026-03-01", ad_id: ad1, meta_item_id: m2, link_clicks: 50, impressions: 5000, spend: 50}
+      - input: ref('int_product_key_map')
+        rows:
+          - {meta_item_id: m1, product_key: key_a, mixpanel_sku: SKU-A}
+          - {meta_item_id: m2, product_key: key_b, mixpanel_sku: SKU-B}
+    expect:
+      rows:
+        - {report_date: "2026-03-01", ad_id: ad1, product_key: key_a, mixpanel_sku: SKU-A, attribution_model: M3, lookback_days: 7, orders: 3, revenue: 320.000000}
+        - {report_date: "2026-03-01", ad_id: ad1, product_key: key_b, mixpanel_sku: SKU-B, attribution_model: M3, lookback_days: 7, orders: 1, revenue: 80.000000}
+
+  - name: m3_falls_back_to_impression_share_when_no_link_clicks
+    description: "No link clicks at all => allocate by impressions (m1 75%, m2 25%) of 100 revenue."
+    model: int_attribution_m3
+    given:
+      - input: ref('stg_meta__ad_insights')
+        rows:
+          - {report_date: "2026-03-01", ad_id: ad1, meta_purchases: 4, meta_purchase_value: 100}
+      - input: ref('stg_meta__ad_product_insights')
+        rows:
+          - {report_date: "2026-03-01", ad_id: ad1, meta_item_id: m1, link_clicks: 0, impressions: 3000, spend: 10}
+          - {report_date: "2026-03-01", ad_id: ad1, meta_item_id: m2, link_clicks: 0, impressions: 1000, spend: 10}
+      - input: ref('int_product_key_map')
+        rows:
+          - {meta_item_id: m1, product_key: key_a, mixpanel_sku: SKU-A}
+          - {meta_item_id: m2, product_key: key_b, mixpanel_sku: SKU-B}
+    expect:
+      rows:
+        - {report_date: "2026-03-01", ad_id: ad1, product_key: key_a, mixpanel_sku: SKU-A, attribution_model: M3, lookback_days: 7, orders: 3, revenue: 75.000000}
+        - {report_date: "2026-03-01", ad_id: ad1, product_key: key_b, mixpanel_sku: SKU-B, attribution_model: M3, lookback_days: 7, orders: 1, revenue: 25.000000}
+
+  # ───────────────────────────── M4: purchased SKU, last paid touch = Meta ─────────────────────────────
+  - name: m4_credits_purchased_sku_when_meta_is_last_paid_touch
+    description: "u1 clicks a Meta ad (ad1) then buys SKU-D (30) => ad1/SKU-D credited even though SKU-D was not the clicked product."
+    model: int_attribution_m4
+    given:
+      - input: ref('stg_mixpanel__events')
+        rows:
+          - {distinct_id_hash: u1, event: Product Viewed, event_time: "2026-03-01 10:00:00", utm_source: facebook, utm_medium: paid_social, utm_content: ad1, sku: SKU-A}
+          - {distinct_id_hash: u1, event: Order Completed, event_time: "2026-03-01 15:00:00", order_id: o1, sku: SKU-D, price: 30, quantity: 1}
+    expect:
+      rows:
+        - {report_date: "2026-03-01", ad_id: ad1, mixpanel_sku: SKU-D, attribution_model: M4, lookback_days: 7, orders: 1, units: 1, revenue: 30.000000}
+
+  - name: m4_no_credit_when_a_later_non_meta_paid_touch_exists
+    description: "Meta click at 09:00, Google CPC touch at 11:00, purchase at 14:00 => last paid touch is Google => Meta gets nothing."
+    model: int_attribution_m4
+    given:
+      - input: ref('stg_mixpanel__events')
+        rows:
+          - {distinct_id_hash: u1, event: Product Viewed, event_time: "2026-03-02 09:00:00", utm_source: facebook, utm_medium: paid_social, utm_content: ad2, sku: SKU-C}
+          - {distinct_id_hash: u1, event: Page Viewed, event_time: "2026-03-02 11:00:00", utm_source: google, utm_medium: cpc, utm_content: g77}
+          - {distinct_id_hash: u1, event: Order Completed, event_time: "2026-03-02 14:00:00", order_id: o3, sku: SKU-C, price: 40, quantity: 2}
+    expect:
+      rows: []

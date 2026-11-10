@@ -1,0 +1,14 @@
+# CI / local-test profile: runs the SAME models on a Postgres stand-in for Redshift.
+# Credentials are test-only (throwaway local database). Never use against a real warehouse.
+roi_hunter:
+  target: ci
+  outputs:
+    ci:
+      type: postgres
+      host: "{{ env_var('TEST_PG_HOST', 'localhost') }}"
+      port: "{{ env_var('TEST_PG_PORT', '5432') | int }}"
+      user: "{{ env_var('TEST_PG_USER', 'roi_ci') }}"
+      password: "{{ env_var('TEST_PG_PASSWORD', 'roi_ci_test_only') }}"
+      dbname: "{{ env_var('TEST_PG_DB', 'roi_hunter_ci') }}"
+      schema: public
+      threads: 2

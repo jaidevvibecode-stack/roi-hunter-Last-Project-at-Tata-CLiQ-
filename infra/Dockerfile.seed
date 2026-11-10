@@ -1,0 +1,12 @@
+# One-shot job for the docker smoke stack ONLY: loads hand-built fixtures into the Postgres stand-in and runs dbt.
+FROM python:3.12-slim
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PYTHONPATH=/app DBT_PROFILES_DIR=/app/transform
+WORKDIR /app
+COPY pyproject.toml scripts/print_requirements.py ./
+RUN python print_requirements.py ci > /tmp/req.txt && pip install --no-cache-dir -r /tmp/req.txt && rm -f /tmp/req.txt pyproject.toml print_requirements.py
+COPY ingestion ./ingestion
+COPY config ./config
+COPY transform ./transform
+COPY tests/fixtures ./tests/fixtures
+RUN cp transform/profiles.ci.yml transform/profiles.yml && cd transform && dbt deps
+CMD ["sh", "-c", "python -m ingestion.testing.fixtures && cd transform && dbt build --full-refresh --vars '{min_spend_for_classification: 50, target_roas: 0.4, high_spend_percentile: 0.5}'"]

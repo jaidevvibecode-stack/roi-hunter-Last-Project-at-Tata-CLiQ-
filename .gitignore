@@ -1,0 +1,85 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Environments
+.env
+.env.*
+!.env.example
+.venv
+venv/
+env/
+*.env.local
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# Test & coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+
+# dbt
+transform/target/
+transform/dbt_packages/
+transform/logs/
+
+# Node / Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.turbo/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets / raw data — NEVER commit these
+*.token
+*.pem
+*.key
+docs/samples/*.json
+docs/samples/*.jsonl
+docs/samples/*.parquet
+data/
+raw/
+
+# Logs
+*.log
+logs/
+
+# Docker
+infra/*.env
+
+# dbt credentials / artefacts
+profiles.yml
+!profiles.yml.example
+transform/package-lock.yml.bak
+
+# Keys, dumps, exports that could contain Tata data
+*.p12
+*.pfx
+*.jks
+*.csv.gz
+*.parquet
+*.sql.dump
+exports/
+!transform/seeds/*.csv

@@ -1,0 +1,27 @@
+# Copy this file to ~/.dbt/profiles.yml and fill in your Redshift details.
+# NEVER commit the filled-in version — it contains credentials.
+roi_hunter:
+  target: dev
+  outputs:
+    dev:
+      type: redshift
+      host: "{{ env_var('REDSHIFT_HOST') }}"
+      port: "{{ env_var('REDSHIFT_PORT', '5439') | int }}"
+      dbname: "{{ env_var('REDSHIFT_DB') }}"
+      user: "{{ env_var('REDSHIFT_USER') }}"
+      password: "{{ env_var('REDSHIFT_PASSWORD') }}"
+      schema: stg         # default schema; models override per dbt_project.yml
+      threads: 4
+      connect_timeout: 30
+      ra3_node: true       # set to false if using ds2/dc2 nodes
+    prod:
+      type: redshift
+      host: "{{ env_var('REDSHIFT_HOST') }}"
+      port: "{{ env_var('REDSHIFT_PORT', '5439') | int }}"
+      dbname: "{{ env_var('REDSHIFT_DB') }}"
+      user: "{{ env_var('REDSHIFT_USER') }}"
+      password: "{{ env_var('REDSHIFT_PASSWORD') }}"
+      schema: stg
+      threads: 8
+      connect_timeout: 30
+      ra3_node: true

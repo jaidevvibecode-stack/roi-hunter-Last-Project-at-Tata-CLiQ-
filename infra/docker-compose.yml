@@ -1,0 +1,33 @@
+# Production-shaped stack (Redshift is external). Secrets come from env_file / secret manager — never baked in.
+#   cp .env.example .env  &&  docker compose -f infra/docker-compose.yml --env-file .env up --build
+# Smoke / CI stack with a Postgres stand-in:  see infra/docker-compose.smoke.yml
+services:
+  backend:
+    build: {context: .., dockerfile: infra/Dockerfile.backend}
+    env_file: [../.env]
+    environment: {ENV: "${ENV:-staging}", DATA_SOURCE: redshift}
+    ports: ["127.0.0.1:8000:8000"]
+    read_only: true
+    tmpfs: [/tmp]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+
+  frontend:
+    build: {context: .., dockerfile: infra/Dockerfile.frontend}
+    env_file: [../.env]
+    environment: {BACKEND_URL: "http://backend:8000"}
+    ports: ["127.0.0.1:3000:3000"]
+    depends_on: {backend: {condition: service_healthy}}
+    read_only: true
+    tmpfs: [/tmp, /app/.next/cache]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+
+  pipeline:
+    build: {context: .., dockerfile: infra/Dockerfile.pipeline}
+    env_file: [../.env]
+    restart: unless-stopped
+    read_only: true
+    tmpfs: [/tmp, /app/transform/target, /app/transform/logs]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]

@@ -1,0 +1,71 @@
+name: 'roi_hunter'
+version: '1.0.0'
+config-version: 2
+
+profile: 'roi_hunter'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+seeds:
+  roi_hunter:
+    sku_mapping:
+      +column_types:
+        meta_item_id: varchar(256)
+        retailer_id: varchar(256)
+        mixpanel_sku: varchar(256)
+        redshift_sku: varchar(256)
+        notes: varchar(1024)
+
+vars:
+  # Default lookback window for restatement (trailing days to re-process)
+  restatement_days: 7
+  # Reporting currency — must match REPORTING_CURRENCY env var
+  reporting_currency: "INR"
+  # Minimum match rate thresholds for DQ checks (DESIGN §12)
+  min_spend_match_rate: 0.95
+  min_revenue_match_rate: 0.90
+  max_spend_gap_pct: 0.02
+  # Mixpanel event names — PLACEHOLDERS until spike P0.6 / Q5 verifies them
+  purchase_event: "Order Completed"
+  product_view_event: "Product Viewed"
+  mx_prop_sku: "product_id"
+  mx_prop_price: "price"
+  mx_prop_quantity: "quantity"
+  mx_prop_order_id: "order_id"
+  mx_prop_utm_source: "utm_source"
+  mx_prop_utm_medium: "utm_medium"
+  mx_prop_utm_campaign: "utm_campaign"
+  mx_prop_utm_content: "utm_content"
+  mx_prop_fbclid: "$fbclid"
+  meta_utm_sources: ["facebook", "fb", "meta", "instagram", "ig"]
+  paid_utm_mediums: ["paid", "cpc", "paid_social", "paidsocial", "ppc", "display"]
+  default_lookback_days: 7
+  # Segmentation (mirror of config/segments.yml — keep in sync)
+  target_roas: 3.0
+  high_spend_percentile: 0.80
+  min_spend_for_classification: 500
+
+models:
+  roi_hunter:
+    staging:
+      +materialized: view
+      +schema: stg
+    intermediate:
+      +materialized: ephemeral
+    marts:
+      +materialized: table
+      +schema: mart
+      product_performance_daily:
+        +materialized: incremental
+        +incremental_strategy: delete+insert
+        +unique_key: ['report_date', 'ad_id', 'product_key', 'attribution_model', 'lookback_days']

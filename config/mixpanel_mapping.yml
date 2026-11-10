@@ -1,0 +1,22 @@
+# SINGLE SOURCE OF TRUTH for Mixpanel event/property names.
+# Values are PLACEHOLDERS until spike P0.6 / Q5 verifies them against the real project.
+# After verification: edit ONLY this file, mirror it in transform/dbt_project.yml `vars:` (a test fails if they drift),
+# then re-run `dbt build`. No SQL or Python changes needed.
+purchase_event: "Order Completed"
+product_view_event: "Product Viewed"
+# Other events that carry UTM data and count as a paid touch for M4 (placeholder — confirm in spike P0.6)
+touch_events: ["Page Viewed"]
+properties:
+  sku: "product_id"
+  price: "price"
+  quantity: "quantity"
+  order_id: "order_id"
+  utm_source: "utm_source"
+  utm_medium: "utm_medium"
+  utm_campaign: "utm_campaign"
+  utm_content: "utm_content"     # carries {{ad.id}} when URL parameters are set on the ads
+  fbclid: "$fbclid"
+# utm_source values that mean "Meta" (Facebook / Instagram)
+meta_utm_sources: ["facebook", "fb", "meta", "instagram", "ig"]
+# utm_medium values that mean "paid traffic" (any channel) — used by M4 last-paid-touch
+paid_utm_mediums: ["paid", "cpc", "paid_social", "paidsocial", "ppc", "display"]

@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #000000;
+  --card: #0a0a0b;
+  --card-2: #101012;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --text: #ffffff;
+  --muted: #8b8b92;
+  --faint: #55555c;
+  --up: #34d399;
+  --down: #f43f5e;
+  --warn: #fbbf24;
+  --radius: 18px;
+}
+
+* { box-sizing: border-box; }
+html, body { background: var(--bg); color: var(--text); }
+body { font-feature-settings: "tnum"; -webkit-font-smoothing: antialiased; }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-thumb { background: #232326; border-radius: 3px; }
+
+.card {
+  background: linear-gradient(180deg, #0d0d0f 0%, var(--card) 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.card-inset { background: var(--card-2); border: 1px solid var(--border); border-radius: 12px; }
+.muted { color: var(--muted); }
+.up { color: var(--up); }
+.down { color: var(--down); }
+
+.pill {
+  display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; font-size: 12px;
+  border-radius: 999px; border: 1px solid var(--border); color: var(--muted); background: transparent;
+  transition: all .15s ease; cursor: pointer;
+}
+.pill:hover { color: #fff; border-color: var(--border-strong); }
+.pill[data-active="true"] { color: #000; background: #fff; border-color: #fff; font-weight: 600; }
+
+.btn-light {
+  display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; font-size: 12px; font-weight: 600;
+  border-radius: 10px; color: #fff; border: 1px solid var(--border-strong); background: rgba(255,255,255,.04);
+}
+.btn-light:hover { background: rgba(255,255,255,.1); }
+
+.th { font-size: 11px; font-weight: 500; color: var(--muted); text-align: right; padding: 12px 14px; white-space: nowrap; }
+.td { font-size: 13px; padding: 14px; text-align: right; white-space: nowrap; border-top: 1px solid var(--border); }
+.tr-hover:hover { background: rgba(255,255,255,.035); cursor: pointer; }
+
+.seg-Stars { color: #34d399; background: rgba(52,211,153,.1); }
+.seg-Hidden { color: #60a5fa; background: rgba(96,165,250,.1); }
+.seg-Bleeders { color: #f43f5e; background: rgba(244,63,94,.1); }
+.seg-Zombies { color: #a1a1aa; background: rgba(161,161,170,.1); }
+.seg-Insufficient { color: #71717a; background: rgba(113,113,122,.1); }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.fade-in { animation: fadeIn .35s ease both; }
+@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+.skeleton {
+  background: linear-gradient(90deg, #0f0f11 25%, #18181b 50%, #0f0f11 75%);
+  background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 8px;
+}

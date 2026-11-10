@@ -1,0 +1,3983 @@
+{
+  "components": {
+    "schemas": {
+      "AttributionCompareResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/AttributionRow"
+            },
+            "title": "Data",
+            "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "page": {
+            "title": "Page",
+            "type": "integer"
+          },
+          "page_size": {
+            "title": "Page Size",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "meta",
+          "page",
+          "page_size",
+          "total",
+          "data"
+        ],
+        "title": "AttributionCompareResponse",
+        "type": "object"
+      },
+      "AttributionRow": {
+        "additionalProperties": false,
+        "properties": {
+          "product_key": {
+            "title": "Product Key",
+            "type": "string"
+          },
+          "product_name": {
+            "title": "Product Name",
+            "type": "string"
+          },
+          "retailer_id": {
+            "title": "Retailer Id",
+            "type": "string"
+          },
+          "revenue_m1": {
+            "title": "Revenue M1",
+            "type": "number"
+          },
+          "revenue_m2": {
+            "title": "Revenue M2",
+            "type": "number"
+          },
+          "revenue_m3": {
+            "title": "Revenue M3",
+            "type": "number"
+          },
+          "revenue_m4": {
+            "title": "Revenue M4",
+            "type": "number"
+          },
+          "roas_m1": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roas M1"
+          },
+          "roas_m2": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roas M2"
+          },
+          "roas_m3": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roas M3"
+          },
+          "roas_m4": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roas M4"
+          },
+          "spend": {
+            "title": "Spend",
+            "type": "number"
+          }
+        },
+        "required": [
+          "product_key",
+          "retailer_id",
+          "product_name",
+          "spend",
+          "revenue_m1",
+          "revenue_m2",
+          "revenue_m3",
+          "revenue_m4",
+          "roas_m1",
+          "roas_m2",
+          "roas_m3",
+          "roas_m4"
+        ],
+        "title": "AttributionRow",
+        "type": "object"
+      },
+      "BreakdownRow": {
+        "additionalProperties": false,
+        "properties": {
+          "campaign_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Campaign Id"
+          },
+          "impressions": {
+            "title": "Impressions",
+            "type": "number"
+          },
+          "link_clicks": {
+            "title": "Link Clicks",
+            "type": "number"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "orders": {
+            "title": "Orders",
+            "type": "number"
+          },
+          "revenue": {
+            "title": "Revenue",
+            "type": "number"
+          },
+          "roas": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roas"
+          },
+          "spend": {
+            "title": "Spend",
+            "type": "number"
+          }
+        },
+        "required": [
+          "name",
+          "campaign_id",
+          "spend",
+          "impressions",
+          "link_clicks",
+          "orders",
+          "revenue",
+          "roas"
+        ],
+        "title": "BreakdownRow",
+        "type": "object"
+      },
+      "CampaignOption": {
+        "additionalProperties": false,
+        "properties": {
+          "account_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Account Id"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "account_id"
+        ],
+        "title": "CampaignOption",
+        "type": "object"
+      },
+      "DQCheck": {
+        "additionalProperties": false,
+        "properties": {
+          "check_name": {
+            "title": "Check Name",
+            "type": "string"
+          },
+          "details": {
+            "additionalProperties": true,
+            "title": "Details",
+            "type": "object"
+          },
+          "observed": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Observed"
+          },
+          "run_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Run At"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "threshold": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Threshold"
+          }
+        },
+        "required": [
+          "check_name",
+          "status",
+          "observed",
+          "threshold",
+          "details",
+          "run_at"
+        ],
+        "title": "DQCheck",
+        "type": "object"
+      },
+      "DataQualityResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "checks": {
+            "items": {
+              "$ref": "#/components/schemas/DQCheck"
+            },
+            "title": "Checks",
+            "type": "array"
+          },
+          "last_run": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Run"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "reconciliation": {
+            "items": {
+              "$ref": "#/components/schemas/ReconciliationRow"
+            },
+            "title": "Reconciliation",
+            "type": "array"
+          },
+          "revenue_match_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Revenue Match Rate"
+          },
+          "spend_match_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Spend Match Rate"
+          }
+        },
+        "required": [
+          "meta",
+          "checks",
+          "spend_match_rate",
+          "revenue_match_rate",
+          "reconciliation",
+          "last_run"
+        ],
+        "title": "DataQualityResponse",
+        "type": "object"
+      },
+      "FilterOptionsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "accounts": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Accounts",
+            "type": "array"
+          },
+          "availability": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Availability",
+            "type": "array"
+          },
+          "brands": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Brands",
+            "type": "array"
+          },
+          "campaigns": {
+            "items": {
+              "$ref": "#/components/schemas/CampaignOption"
+            },
+            "title": "Campaigns",
+            "type": "array"
+          },
+          "categories": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Categories",
+            "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "meta",
+          "accounts",
+          "campaigns",
+          "categories",
+          "brands",
+          "availability"
+        ],
+        "title": "FilterOptionsResponse",
+        "type": "object"
+      },
+      "FreshnessResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "as_of": {
+            "title": "As Of",
+            "type": "string"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/SourceFreshness"
+            },
+            "title": "Sources",
+            "type": "array"
+          }
+        },
+        "required": [
+          "meta",
+          "as_of",
+          "sources"
+        ],
+        "title": "FreshnessResponse",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "Health": {
+        "additionalProperties": false,
+        "properties": {
+          "data_source": {
+            "enum": [
+              "demo",
+              "redshift"
+            ],
+            "title": "Data Source",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "data_source"
+        ],
+        "title": "Health",
+        "type": "object"
+      },
+      "KpiSet": {
+        "additionalProperties": false,
+        "properties": {
+          "aov": {
+            "$ref": "#/components/schemas/Metric"
+          },
+          "cpc": {
+            "$ref": "#/components/schemas/Metric"
+          },
+          "cpm": {
+            "$ref": "#/components/schemas/Metric"
+          },
+          "ctr": {
+            "$ref": "#/components/schemas/Metric"
+          },
+          "cvr": {
+            "$ref": "#/components/schemas/Metric"
+          },
+          "impressions": {
+            "$ref": "#/components/schemas/Metric"
+          },
+          "link_clicks": {
+            "$ref": "#/components/schemas/Metric"
+          },
+          "orders": {
+            "$ref": "#/components/schemas/Metric"
+          },
+          "revenue": {
+            "$ref": "#/components/schemas/Metric"
+          },
+          "roas": {
+            "$ref": "#/components/schemas/Metric"
+          },
+          "spend": {
+            "$ref": "#/components/schemas/Metric"
+          },
+          "units": {
+            "$ref": "#/components/schemas/Metric"
+          }
+        },
+        "required": [
+          "spend",
+          "impressions",
+          "link_clicks",
+          "orders",
+          "units",
+          "revenue",
+          "ctr",
+          "cpm",
+          "cpc",
+          "roas",
+          "cvr",
+          "aov"
+        ],
+        "title": "KpiSet",
+        "type": "object"
+      },
+      "Meta": {
+        "additionalProperties": false,
+        "properties": {
+          "attribution_model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Attribution Model"
+          },
+          "data_source": {
+            "enum": [
+              "demo",
+              "redshift"
+            ],
+            "title": "Data Source",
+            "type": "string"
+          },
+          "env": {
+            "title": "Env",
+            "type": "string"
+          },
+          "lookback_days": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lookback Days"
+          }
+        },
+        "required": [
+          "data_source",
+          "env",
+          "attribution_model",
+          "lookback_days"
+        ],
+        "title": "Meta",
+        "type": "object"
+      },
+      "Metric": {
+        "additionalProperties": false,
+        "properties": {
+          "delta_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "(current - prior) / prior * 100",
+            "title": "Delta Pct"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "required": [
+          "value",
+          "delta_pct"
+        ],
+        "title": "Metric",
+        "type": "object"
+      },
+      "OverviewResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "attribution_model": {
+            "title": "Attribution Model",
+            "type": "string"
+          },
+          "kpis": {
+            "$ref": "#/components/schemas/KpiSet"
+          },
+          "lookback_days": {
+            "title": "Lookback Days",
+            "type": "integer"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "pareto_revenue": {
+            "$ref": "#/components/schemas/Pareto"
+          },
+          "pareto_spend": {
+            "$ref": "#/components/schemas/Pareto"
+          },
+          "period": {
+            "$ref": "#/components/schemas/Period"
+          },
+          "segment_summary": {
+            "items": {
+              "$ref": "#/components/schemas/SegmentRow"
+            },
+            "title": "Segment Summary",
+            "type": "array"
+          },
+          "top_products_by_roas": {
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            },
+            "title": "Top Products By Roas",
+            "type": "array"
+          },
+          "top_products_by_spend": {
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            },
+            "title": "Top Products By Spend",
+            "type": "array"
+          },
+          "trend": {
+            "items": {
+              "$ref": "#/components/schemas/TrendPoint"
+            },
+            "title": "Trend",
+            "type": "array"
+          },
+          "unallocated_spend": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unallocated Spend"
+          },
+          "unmapped_spend": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Product-level spend whose product_id is not in the catalog (not in the product table)",
+            "title": "Unmapped Spend"
+          }
+        },
+        "required": [
+          "meta",
+          "period",
+          "kpis",
+          "unallocated_spend",
+          "unmapped_spend",
+          "trend",
+          "top_products_by_spend",
+          "top_products_by_roas",
+          "pareto_spend",
+          "pareto_revenue",
+          "segment_summary",
+          "attribution_model",
+          "lookback_days"
+        ],
+        "title": "OverviewResponse",
+        "type": "object"
+      },
+      "Pareto": {
+        "additionalProperties": false,
+        "properties": {
+          "curve": {
+            "items": {
+              "$ref": "#/components/schemas/ParetoPoint"
+            },
+            "title": "Curve",
+            "type": "array"
+          },
+          "share_of_skus_for_80pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Share Of Skus For 80Pct"
+          },
+          "skus_for_80pct": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Skus For 80Pct"
+          }
+        },
+        "required": [
+          "curve",
+          "skus_for_80pct",
+          "share_of_skus_for_80pct"
+        ],
+        "title": "Pareto",
+        "type": "object"
+      },
+      "ParetoPoint": {
+        "additionalProperties": false,
+        "properties": {
+          "cum_share": {
+            "title": "Cum Share",
+            "type": "number"
+          },
+          "sku_pct": {
+            "title": "Sku Pct",
+            "type": "number"
+          }
+        },
+        "required": [
+          "sku_pct",
+          "cum_share"
+        ],
+        "title": "ParetoPoint",
+        "type": "object"
+      },
+      "Period": {
+        "additionalProperties": false,
+        "properties": {
+          "end": {
+            "title": "End",
+            "type": "string"
+          },
+          "start": {
+            "title": "Start",
+            "type": "string"
+          }
+        },
+        "required": [
+          "start",
+          "end"
+        ],
+        "title": "Period",
+        "type": "object"
+      },
+      "Product": {
+        "additionalProperties": false,
+        "properties": {
+          "aov": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aov"
+          },
+          "attribution_model": {
+            "title": "Attribution Model",
+            "type": "string"
+          },
+          "availability": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Availability"
+          },
+          "brand": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Brand"
+          },
+          "category": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category"
+          },
+          "clicks_all": {
+            "title": "Clicks All",
+            "type": "number"
+          },
+          "cost_per_impression": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cost Per Impression"
+          },
+          "cpc": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cpc"
+          },
+          "cpm": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cpm"
+          },
+          "ctr": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ctr"
+          },
+          "cvr": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cvr"
+          },
+          "image_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image Url"
+          },
+          "impressions": {
+            "title": "Impressions",
+            "type": "number"
+          },
+          "link_clicks": {
+            "title": "Link Clicks",
+            "type": "number"
+          },
+          "lookback_days": {
+            "title": "Lookback Days",
+            "type": "integer"
+          },
+          "orders": {
+            "title": "Orders",
+            "type": "number"
+          },
+          "product_key": {
+            "title": "Product Key",
+            "type": "string"
+          },
+          "product_name": {
+            "title": "Product Name",
+            "type": "string"
+          },
+          "retailer_id": {
+            "title": "Retailer Id",
+            "type": "string"
+          },
+          "revenue": {
+            "title": "Revenue",
+            "type": "number"
+          },
+          "roas": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roas"
+          },
+          "segment": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Segment"
+          },
+          "spend": {
+            "title": "Spend",
+            "type": "number"
+          },
+          "spend_share": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Spend Share"
+          },
+          "units": {
+            "title": "Units",
+            "type": "number"
+          }
+        },
+        "required": [
+          "product_key",
+          "retailer_id",
+          "product_name",
+          "brand",
+          "category",
+          "availability",
+          "image_url",
+          "spend",
+          "impressions",
+          "link_clicks",
+          "clicks_all",
+          "orders",
+          "units",
+          "revenue",
+          "ctr",
+          "cpm",
+          "cost_per_impression",
+          "cpc",
+          "roas",
+          "cvr",
+          "aov",
+          "spend_share",
+          "attribution_model",
+          "lookback_days",
+          "segment"
+        ],
+        "title": "Product",
+        "type": "object"
+      },
+      "ProductBreakdownResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "breakdown": {
+            "items": {
+              "$ref": "#/components/schemas/BreakdownRow"
+            },
+            "title": "Breakdown",
+            "type": "array"
+          },
+          "by": {
+            "enum": [
+              "campaign",
+              "adset",
+              "ad"
+            ],
+            "title": "By",
+            "type": "string"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "product_key": {
+            "title": "Product Key",
+            "type": "string"
+          }
+        },
+        "required": [
+          "meta",
+          "product_key",
+          "by",
+          "breakdown"
+        ],
+        "title": "ProductBreakdownResponse",
+        "type": "object"
+      },
+      "ProductDetailResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "breakdown": {
+            "items": {
+              "$ref": "#/components/schemas/BreakdownRow"
+            },
+            "title": "Breakdown",
+            "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "product": {
+            "$ref": "#/components/schemas/Product"
+          },
+          "trend": {
+            "items": {
+              "$ref": "#/components/schemas/TrendPoint"
+            },
+            "title": "Trend",
+            "type": "array"
+          }
+        },
+        "required": [
+          "meta",
+          "product",
+          "trend",
+          "breakdown"
+        ],
+        "title": "ProductDetailResponse",
+        "type": "object"
+      },
+      "ProductTrendResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "product_key": {
+            "title": "Product Key",
+            "type": "string"
+          },
+          "trend": {
+            "items": {
+              "$ref": "#/components/schemas/TrendPoint"
+            },
+            "title": "Trend",
+            "type": "array"
+          }
+        },
+        "required": [
+          "meta",
+          "product_key",
+          "trend"
+        ],
+        "title": "ProductTrendResponse",
+        "type": "object"
+      },
+      "ProductsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            },
+            "title": "Data",
+            "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "page": {
+            "title": "Page",
+            "type": "integer"
+          },
+          "page_size": {
+            "title": "Page Size",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "meta",
+          "page",
+          "page_size",
+          "total",
+          "data"
+        ],
+        "title": "ProductsResponse",
+        "type": "object"
+      },
+      "Recommendation": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "title": "Action",
+            "type": "string"
+          },
+          "product_count": {
+            "title": "Product Count",
+            "type": "integer"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          },
+          "retailer_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Retailer Ids",
+            "type": "array"
+          },
+          "revenue_affected": {
+            "title": "Revenue Affected",
+            "type": "number"
+          },
+          "rule_id": {
+            "title": "Rule Id",
+            "type": "string"
+          },
+          "severity": {
+            "enum": [
+              "critical",
+              "opportunity",
+              "info"
+            ],
+            "title": "Severity",
+            "type": "string"
+          },
+          "spend_affected": {
+            "title": "Spend Affected",
+            "type": "number"
+          },
+          "top_products": {
+            "items": {
+              "$ref": "#/components/schemas/TopProduct"
+            },
+            "title": "Top Products",
+            "type": "array"
+          }
+        },
+        "required": [
+          "rule_id",
+          "severity",
+          "action",
+          "reason",
+          "product_count",
+          "spend_affected",
+          "revenue_affected",
+          "top_products",
+          "retailer_ids"
+        ],
+        "title": "Recommendation",
+        "type": "object"
+      },
+      "RecommendationsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "recommendations": {
+            "items": {
+              "$ref": "#/components/schemas/Recommendation"
+            },
+            "title": "Recommendations",
+            "type": "array"
+          },
+          "write_back_enabled": {
+            "const": false,
+            "description": "Always false: this system never writes to ad platforms",
+            "title": "Write Back Enabled",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "meta",
+          "recommendations",
+          "write_back_enabled"
+        ],
+        "title": "RecommendationsResponse",
+        "type": "object"
+      },
+      "ReconciliationRow": {
+        "additionalProperties": false,
+        "properties": {
+          "ad_level_catalog_spend": {
+            "title": "Ad Level Catalog Spend",
+            "type": "number"
+          },
+          "product_level_spend": {
+            "title": "Product Level Spend",
+            "type": "number"
+          },
+          "report_date": {
+            "title": "Report Date",
+            "type": "string"
+          },
+          "unallocated_spend": {
+            "title": "Unallocated Spend",
+            "type": "number"
+          }
+        },
+        "required": [
+          "report_date",
+          "ad_level_catalog_spend",
+          "product_level_spend",
+          "unallocated_spend"
+        ],
+        "title": "ReconciliationRow",
+        "type": "object"
+      },
+      "SegmentRow": {
+        "additionalProperties": false,
+        "properties": {
+          "products": {
+            "title": "Products",
+            "type": "integer"
+          },
+          "revenue": {
+            "title": "Revenue",
+            "type": "number"
+          },
+          "roas": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roas"
+          },
+          "segment": {
+            "title": "Segment",
+            "type": "string"
+          },
+          "spend": {
+            "title": "Spend",
+            "type": "number"
+          },
+          "spend_share": {
+            "title": "Spend Share",
+            "type": "number"
+          }
+        },
+        "required": [
+          "segment",
+          "products",
+          "spend",
+          "revenue",
+          "roas",
+          "spend_share"
+        ],
+        "title": "SegmentRow",
+        "type": "object"
+      },
+      "SegmentsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "products": {
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            },
+            "title": "Products",
+            "type": "array"
+          },
+          "summary": {
+            "items": {
+              "$ref": "#/components/schemas/SegmentRow"
+            },
+            "title": "Summary",
+            "type": "array"
+          }
+        },
+        "required": [
+          "meta",
+          "summary",
+          "products"
+        ],
+        "title": "SegmentsResponse",
+        "type": "object"
+      },
+      "SourceFreshness": {
+        "additionalProperties": false,
+        "properties": {
+          "last_run_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Run At"
+          },
+          "latest_data_date": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Data Date"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "source",
+          "last_run_at",
+          "latest_data_date",
+          "status"
+        ],
+        "title": "SourceFreshness",
+        "type": "object"
+      },
+      "TopProduct": {
+        "additionalProperties": false,
+        "properties": {
+          "product_key": {
+            "title": "Product Key",
+            "type": "string"
+          },
+          "product_name": {
+            "title": "Product Name",
+            "type": "string"
+          },
+          "retailer_id": {
+            "title": "Retailer Id",
+            "type": "string"
+          },
+          "roas": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roas"
+          },
+          "spend": {
+            "title": "Spend",
+            "type": "number"
+          }
+        },
+        "required": [
+          "product_key",
+          "retailer_id",
+          "product_name",
+          "spend",
+          "roas"
+        ],
+        "title": "TopProduct",
+        "type": "object"
+      },
+      "TrendPoint": {
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "impressions": {
+            "title": "Impressions",
+            "type": "number"
+          },
+          "link_clicks": {
+            "title": "Link Clicks",
+            "type": "number"
+          },
+          "orders": {
+            "title": "Orders",
+            "type": "number"
+          },
+          "revenue": {
+            "title": "Revenue",
+            "type": "number"
+          },
+          "roas": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roas"
+          },
+          "spend": {
+            "title": "Spend",
+            "type": "number"
+          }
+        },
+        "required": [
+          "date",
+          "spend",
+          "impressions",
+          "link_clicks",
+          "orders",
+          "revenue",
+          "roas"
+        ],
+        "title": "TrendPoint",
+        "type": "object"
+      },
+      "TrendsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "series": {
+            "items": {
+              "$ref": "#/components/schemas/TrendPoint"
+            },
+            "title": "Series",
+            "type": "array"
+          }
+        },
+        "required": [
+          "meta",
+          "series"
+        ],
+        "title": "TrendsResponse",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBasic": {
+        "scheme": "basic",
+        "type": "http"
+      }
+    }
+  },
+  "info": {
+    "description": "Read-only API for per-product Meta ad performance metrics.",
+    "title": "ROI Hunter \u2014 SKU-Level Ad Performance API",
+    "version": "1.0.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/v1/attribution/compare": {
+      "get": {
+        "operationId": "get_attribution_compare_api_v1_attribution_compare_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "maximum": 10000,
+              "minimum": 1,
+              "title": "Page",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 200,
+              "minimum": 1,
+              "title": "Page Size",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Start date (inclusive)",
+            "in": "query",
+            "name": "start_date",
+            "required": true,
+            "schema": {
+              "description": "Start date (inclusive)",
+              "format": "date",
+              "title": "Start Date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "End date (inclusive)",
+            "in": "query",
+            "name": "end_date",
+            "required": true,
+            "schema": {
+              "description": "End date (inclusive)",
+              "format": "date",
+              "title": "End Date",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "account_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Account Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "campaign_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Campaign Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "adset_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Adset Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "ad_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Ad Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "brands[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Brands[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "categories[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Categories[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "availability[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 5,
+              "title": "Availability[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "attribution_model",
+            "required": false,
+            "schema": {
+              "default": "M1",
+              "pattern": "^M[1-4]$",
+              "title": "Attribution Model",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "lookback_days",
+            "required": false,
+            "schema": {
+              "default": 7,
+              "title": "Lookback Days",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "currency",
+            "required": false,
+            "schema": {
+              "default": "INR",
+              "pattern": "^[A-Z]{3}$",
+              "title": "Currency",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "schema": {
+              "default": "",
+              "maxLength": 100,
+              "title": "Search",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttributionCompareResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "summary": "Get Attribution Compare",
+        "tags": [
+          "Attribution"
+        ]
+      }
+    },
+    "/api/v1/data-quality": {
+      "get": {
+        "operationId": "get_data_quality_api_v1_data_quality_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataQualityResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "summary": "Get Data Quality",
+        "tags": [
+          "Data Quality"
+        ]
+      }
+    },
+    "/api/v1/export/products.csv": {
+      "get": {
+        "operationId": "export_products_csv_api_v1_export_products_csv_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "required": false,
+            "schema": {
+              "default": "spend",
+              "title": "Sort",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Start date (inclusive)",
+            "in": "query",
+            "name": "start_date",
+            "required": true,
+            "schema": {
+              "description": "Start date (inclusive)",
+              "format": "date",
+              "title": "Start Date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "End date (inclusive)",
+            "in": "query",
+            "name": "end_date",
+            "required": true,
+            "schema": {
+              "description": "End date (inclusive)",
+              "format": "date",
+              "title": "End Date",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "account_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Account Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "campaign_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Campaign Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "adset_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Adset Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "ad_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Ad Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "brands[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Brands[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "categories[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Categories[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "availability[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 5,
+              "title": "Availability[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "attribution_model",
+            "required": false,
+            "schema": {
+              "default": "M1",
+              "pattern": "^M[1-4]$",
+              "title": "Attribution Model",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "lookback_days",
+            "required": false,
+            "schema": {
+              "default": 7,
+              "title": "Lookback Days",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "currency",
+            "required": false,
+            "schema": {
+              "default": "INR",
+              "pattern": "^[A-Z]{3}$",
+              "title": "Currency",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "schema": {
+              "default": "",
+              "maxLength": 100,
+              "title": "Search",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "CSV of the current filtered product table"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "summary": "Export Products Csv",
+        "tags": [
+          "Export"
+        ]
+      }
+    },
+    "/api/v1/filters/options": {
+      "get": {
+        "operationId": "get_filter_options_api_v1_filters_options_get",
+        "parameters": [
+          {
+            "description": "Start date (inclusive)",
+            "in": "query",
+            "name": "start_date",
+            "required": true,
+            "schema": {
+              "description": "Start date (inclusive)",
+              "format": "date",
+              "title": "Start Date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "End date (inclusive)",
+            "in": "query",
+            "name": "end_date",
+            "required": true,
+            "schema": {
+              "description": "End date (inclusive)",
+              "format": "date",
+              "title": "End Date",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "account_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Account Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "campaign_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Campaign Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "adset_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Adset Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "ad_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Ad Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "brands[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Brands[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "categories[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Categories[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "availability[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 5,
+              "title": "Availability[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "attribution_model",
+            "required": false,
+            "schema": {
+              "default": "M1",
+              "pattern": "^M[1-4]$",
+              "title": "Attribution Model",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "lookback_days",
+            "required": false,
+            "schema": {
+              "default": 7,
+              "title": "Lookback Days",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "currency",
+            "required": false,
+            "schema": {
+              "default": "INR",
+              "pattern": "^[A-Z]{3}$",
+              "title": "Currency",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "schema": {
+              "default": "",
+              "maxLength": 100,
+              "title": "Search",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FilterOptionsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "summary": "Get Filter Options",
+        "tags": [
+          "Filters"
+        ]
+      }
+    },
+    "/api/v1/meta/freshness": {
+      "get": {
+        "operationId": "get_freshness_api_v1_meta_freshness_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FreshnessResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "summary": "Get Freshness",
+        "tags": [
+          "Freshness"
+        ]
+      }
+    },
+    "/api/v1/overview": {
+      "get": {
+        "operationId": "get_overview_api_v1_overview_get",
+        "parameters": [
+          {
+            "description": "Start date (inclusive)",
+            "in": "query",
+            "name": "start_date",
+            "required": true,
+            "schema": {
+              "description": "Start date (inclusive)",
+              "format": "date",
+              "title": "Start Date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "End date (inclusive)",
+            "in": "query",
+            "name": "end_date",
+            "required": true,
+            "schema": {
+              "description": "End date (inclusive)",
+              "format": "date",
+              "title": "End Date",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "account_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Account Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "campaign_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Campaign Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "adset_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Adset Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "ad_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Ad Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "brands[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Brands[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "categories[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Categories[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "availability[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 5,
+              "title": "Availability[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "attribution_model",
+            "required": false,
+            "schema": {
+              "default": "M1",
+              "pattern": "^M[1-4]$",
+              "title": "Attribution Model",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "lookback_days",
+            "required": false,
+            "schema": {
+              "default": 7,
+              "title": "Lookback Days",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "currency",
+            "required": false,
+            "schema": {
+              "default": "INR",
+              "pattern": "^[A-Z]{3}$",
+              "title": "Currency",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "schema": {
+              "default": "",
+              "maxLength": 100,
+              "title": "Search",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OverviewResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "summary": "Get Overview",
+        "tags": [
+          "Overview"
+        ]
+      }
+    },
+    "/api/v1/products": {
+      "get": {
+        "operationId": "get_products_api_v1_products_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "sort",
+            "required": false,
+            "schema": {
+              "default": "spend",
+              "title": "Sort",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "order",
+            "required": false,
+            "schema": {
+              "default": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "title": "Order",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "maximum": 10000,
+              "minimum": 1,
+              "title": "Page",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "maximum": 500,
+              "minimum": 1,
+              "title": "Page Size",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Start date (inclusive)",
+            "in": "query",
+            "name": "start_date",
+            "required": true,
+            "schema": {
+              "description": "Start date (inclusive)",
+              "format": "date",
+              "title": "Start Date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "End date (inclusive)",
+            "in": "query",
+            "name": "end_date",
+            "required": true,
+            "schema": {
+              "description": "End date (inclusive)",
+              "format": "date",
+              "title": "End Date",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "account_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Account Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "campaign_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Campaign Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "adset_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Adset Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "ad_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Ad Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "brands[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Brands[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "categories[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Categories[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "availability[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 5,
+              "title": "Availability[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "attribution_model",
+            "required": false,
+            "schema": {
+              "default": "M1",
+              "pattern": "^M[1-4]$",
+              "title": "Attribution Model",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "lookback_days",
+            "required": false,
+            "schema": {
+              "default": 7,
+              "title": "Lookback Days",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "currency",
+            "required": false,
+            "schema": {
+              "default": "INR",
+              "pattern": "^[A-Z]{3}$",
+              "title": "Currency",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "schema": {
+              "default": "",
+              "maxLength": 100,
+              "title": "Search",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "summary": "Get Products",
+        "tags": [
+          "Products"
+        ]
+      }
+    },
+    "/api/v1/products/{product_key}": {
+      "get": {
+        "operationId": "get_product_detail_api_v1_products__product_key__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "product_key",
+            "required": true,
+            "schema": {
+              "pattern": "^[A-Za-z0-9_-]{1,64}$",
+              "title": "Product Key",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Start date (inclusive)",
+            "in": "query",
+            "name": "start_date",
+            "required": true,
+            "schema": {
+              "description": "Start date (inclusive)",
+              "format": "date",
+              "title": "Start Date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "End date (inclusive)",
+            "in": "query",
+            "name": "end_date",
+            "required": true,
+            "schema": {
+              "description": "End date (inclusive)",
+              "format": "date",
+              "title": "End Date",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "account_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Account Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "campaign_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Campaign Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "adset_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Adset Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "ad_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Ad Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "brands[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Brands[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "categories[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Categories[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "availability[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 5,
+              "title": "Availability[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "attribution_model",
+            "required": false,
+            "schema": {
+              "default": "M1",
+              "pattern": "^M[1-4]$",
+              "title": "Attribution Model",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "lookback_days",
+            "required": false,
+            "schema": {
+              "default": 7,
+              "title": "Lookback Days",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "currency",
+            "required": false,
+            "schema": {
+              "default": "INR",
+              "pattern": "^[A-Z]{3}$",
+              "title": "Currency",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "schema": {
+              "default": "",
+              "maxLength": 100,
+              "title": "Search",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductDetailResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "summary": "Get Product Detail",
+        "tags": [
+          "Products"
+        ]
+      }
+    },
+    "/api/v1/products/{product_key}/breakdown": {
+      "get": {
+        "operationId": "get_product_breakdown_api_v1_products__product_key__breakdown_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "product_key",
+            "required": true,
+            "schema": {
+              "pattern": "^[A-Za-z0-9_-]{1,64}$",
+              "title": "Product Key",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "by",
+            "required": false,
+            "schema": {
+              "default": "campaign",
+              "enum": [
+                "campaign",
+                "adset",
+                "ad"
+              ],
+              "title": "By",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Start date (inclusive)",
+            "in": "query",
+            "name": "start_date",
+            "required": true,
+            "schema": {
+              "description": "Start date (inclusive)",
+              "format": "date",
+              "title": "Start Date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "End date (inclusive)",
+            "in": "query",
+            "name": "end_date",
+            "required": true,
+            "schema": {
+              "description": "End date (inclusive)",
+              "format": "date",
+              "title": "End Date",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "account_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Account Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "campaign_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Campaign Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "adset_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Adset Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "ad_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Ad Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "brands[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Brands[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "categories[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Categories[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "availability[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 5,
+              "title": "Availability[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "attribution_model",
+            "required": false,
+            "schema": {
+              "default": "M1",
+              "pattern": "^M[1-4]$",
+              "title": "Attribution Model",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "lookback_days",
+            "required": false,
+            "schema": {
+              "default": 7,
+              "title": "Lookback Days",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "currency",
+            "required": false,
+            "schema": {
+              "default": "INR",
+              "pattern": "^[A-Z]{3}$",
+              "title": "Currency",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "schema": {
+              "default": "",
+              "maxLength": 100,
+              "title": "Search",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductBreakdownResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "summary": "Get Product Breakdown",
+        "tags": [
+          "Products"
+        ]
+      }
+    },
+    "/api/v1/products/{product_key}/trend": {
+      "get": {
+        "operationId": "get_product_trend_api_v1_products__product_key__trend_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "product_key",
+            "required": true,
+            "schema": {
+              "pattern": "^[A-Za-z0-9_-]{1,64}$",
+              "title": "Product Key",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Start date (inclusive)",
+            "in": "query",
+            "name": "start_date",
+            "required": true,
+            "schema": {
+              "description": "Start date (inclusive)",
+              "format": "date",
+              "title": "Start Date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "End date (inclusive)",
+            "in": "query",
+            "name": "end_date",
+            "required": true,
+            "schema": {
+              "description": "End date (inclusive)",
+              "format": "date",
+              "title": "End Date",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "account_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Account Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "campaign_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Campaign Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "adset_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Adset Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "ad_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Ad Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "brands[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Brands[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "categories[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Categories[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "availability[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 5,
+              "title": "Availability[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "attribution_model",
+            "required": false,
+            "schema": {
+              "default": "M1",
+              "pattern": "^M[1-4]$",
+              "title": "Attribution Model",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "lookback_days",
+            "required": false,
+            "schema": {
+              "default": 7,
+              "title": "Lookback Days",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "currency",
+            "required": false,
+            "schema": {
+              "default": "INR",
+              "pattern": "^[A-Z]{3}$",
+              "title": "Currency",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "schema": {
+              "default": "",
+              "maxLength": 100,
+              "title": "Search",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductTrendResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "summary": "Get Product Trend",
+        "tags": [
+          "Products"
+        ]
+      }
+    },
+    "/api/v1/recommendations": {
+      "get": {
+        "operationId": "get_recommendations_api_v1_recommendations_get",
+        "parameters": [
+          {
+            "description": "Start date (inclusive)",
+            "in": "query",
+            "name": "start_date",
+            "required": true,
+            "schema": {
+              "description": "Start date (inclusive)",
+              "format": "date",
+              "title": "Start Date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "End date (inclusive)",
+            "in": "query",
+            "name": "end_date",
+            "required": true,
+            "schema": {
+              "description": "End date (inclusive)",
+              "format": "date",
+              "title": "End Date",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "account_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Account Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "campaign_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Campaign Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "adset_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Adset Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "ad_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Ad Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "brands[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Brands[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "categories[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Categories[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "availability[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 5,
+              "title": "Availability[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "attribution_model",
+            "required": false,
+            "schema": {
+              "default": "M1",
+              "pattern": "^M[1-4]$",
+              "title": "Attribution Model",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "lookback_days",
+            "required": false,
+            "schema": {
+              "default": 7,
+              "title": "Lookback Days",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "currency",
+            "required": false,
+            "schema": {
+              "default": "INR",
+              "pattern": "^[A-Z]{3}$",
+              "title": "Currency",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "schema": {
+              "default": "",
+              "maxLength": 100,
+              "title": "Search",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecommendationsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "summary": "Get Recommendations",
+        "tags": [
+          "Recommendations"
+        ]
+      }
+    },
+    "/api/v1/segments": {
+      "get": {
+        "operationId": "get_segments_api_v1_segments_get",
+        "parameters": [
+          {
+            "description": "Start date (inclusive)",
+            "in": "query",
+            "name": "start_date",
+            "required": true,
+            "schema": {
+              "description": "Start date (inclusive)",
+              "format": "date",
+              "title": "Start Date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "End date (inclusive)",
+            "in": "query",
+            "name": "end_date",
+            "required": true,
+            "schema": {
+              "description": "End date (inclusive)",
+              "format": "date",
+              "title": "End Date",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "account_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Account Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "campaign_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Campaign Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "adset_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Adset Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "ad_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Ad Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "brands[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Brands[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "categories[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Categories[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "availability[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 5,
+              "title": "Availability[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "attribution_model",
+            "required": false,
+            "schema": {
+              "default": "M1",
+              "pattern": "^M[1-4]$",
+              "title": "Attribution Model",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "lookback_days",
+            "required": false,
+            "schema": {
+              "default": 7,
+              "title": "Lookback Days",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "currency",
+            "required": false,
+            "schema": {
+              "default": "INR",
+              "pattern": "^[A-Z]{3}$",
+              "title": "Currency",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "schema": {
+              "default": "",
+              "maxLength": 100,
+              "title": "Search",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SegmentsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "summary": "Get Segments",
+        "tags": [
+          "Segments"
+        ]
+      }
+    },
+    "/api/v1/trends": {
+      "get": {
+        "operationId": "get_trends_api_v1_trends_get",
+        "parameters": [
+          {
+            "description": "Start date (inclusive)",
+            "in": "query",
+            "name": "start_date",
+            "required": true,
+            "schema": {
+              "description": "Start date (inclusive)",
+              "format": "date",
+              "title": "Start Date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "End date (inclusive)",
+            "in": "query",
+            "name": "end_date",
+            "required": true,
+            "schema": {
+              "description": "End date (inclusive)",
+              "format": "date",
+              "title": "End Date",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "account_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Account Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "campaign_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Campaign Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "adset_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Adset Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "ad_ids[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Ad Ids[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "brands[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Brands[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "categories[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 50,
+              "title": "Categories[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "availability[]",
+            "required": false,
+            "schema": {
+              "default": [],
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 5,
+              "title": "Availability[]",
+              "type": "array"
+            }
+          },
+          {
+            "in": "query",
+            "name": "attribution_model",
+            "required": false,
+            "schema": {
+              "default": "M1",
+              "pattern": "^M[1-4]$",
+              "title": "Attribution Model",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "lookback_days",
+            "required": false,
+            "schema": {
+              "default": 7,
+              "title": "Lookback Days",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "currency",
+            "required": false,
+            "schema": {
+              "default": "INR",
+              "pattern": "^[A-Z]{3}$",
+              "title": "Currency",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "required": false,
+            "schema": {
+              "default": "",
+              "maxLength": 100,
+              "title": "Search",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrendsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "summary": "Get Trends",
+        "tags": [
+          "Trends"
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health",
+        "tags": [
+          "Health"
+        ]
+      }
+    }
+  }
+}

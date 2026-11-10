@@ -1,0 +1,23 @@
+# FastAPI read-only API. Installs ONLY the api extra (no Meta SDK, no dbt).
+FROM python:3.12-slim
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PYTHONPATH=/app
+WORKDIR /app
+RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/* \
+    && useradd --system --uid 10001 --no-create-home app
+
+COPY pyproject.toml scripts/print_requirements.py ./
+RUN python print_requirements.py api > /tmp/req.txt && pip install --no-cache-dir -r /tmp/req.txt \
+    && rm -f /tmp/req.txt pyproject.toml print_requirements.py
+# CI/compose smoke stack uses Postgres as a Redshift stand-in; production uses redshift-connector (already in `api`).
+ARG WITH_POSTGRES=false
+RUN if [ "$WITH_POSTGRES" = "true" ]; then pip install --no-cache-dir "psycopg2-binary>=2.9.9"; fi
+
+COPY backend ./backend
+COPY ingestion/__init__.py ./ingestion/__init__.py
+COPY ingestion/common ./ingestion/common
+COPY config ./config
+
+USER app
+EXPOSE 8000
+HEALTHCHECK --interval=15s --timeout=5s --start-period=15s --retries=3 CMD curl -fsS http://127.0.0.1:8000/health || exit 1
+CMD ["python", "-m", "uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2"]

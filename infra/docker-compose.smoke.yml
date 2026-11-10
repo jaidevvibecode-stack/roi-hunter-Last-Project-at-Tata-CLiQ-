@@ -1,0 +1,40 @@
+# Whole-stack smoke test: Postgres stand-in (for Redshift) + fixtures + dbt + API + dashboard.
+# Runs the API with ENV=staging, i.e. through the FAIL-CLOSED configuration path (auth, secret key, host allow-list).
+#   ./scripts/smoke_test.sh
+name: roi-smoke
+services:
+  warehouse:
+    image: postgres:16-alpine
+    env_file: [smoke.env]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U roi_ci -d roi_hunter_ci"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    ports: ["127.0.0.1:5543:5432"]
+
+  seed:
+    build: {context: .., dockerfile: infra/Dockerfile.seed}
+    env_file: [smoke.env]
+    depends_on: {warehouse: {condition: service_healthy}}
+    restart: "no"
+
+  backend:
+    build: {context: .., dockerfile: infra/Dockerfile.backend, args: {WITH_POSTGRES: "true"}}
+    env_file: [smoke.env]
+    depends_on: {seed: {condition: service_completed_successfully}}
+    ports: ["127.0.0.1:8300:8000"]
+    read_only: true
+    tmpfs: [/tmp]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+
+  frontend:
+    build: {context: .., dockerfile: infra/Dockerfile.frontend}
+    env_file: [smoke.env]
+    depends_on: {backend: {condition: service_healthy}}
+    ports: ["127.0.0.1:3300:3000"]
+    read_only: true
+    tmpfs: [/tmp, /app/.next/cache]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
